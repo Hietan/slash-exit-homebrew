@@ -32,8 +32,15 @@ jobs:
         shellcheck tests/test_slash_exit.sh
         
     - name: Run test suite
+      shell: bash
       run: |
+        set +e  # Don't exit on test failures
         ./tests/test_slash_exit.sh
+        exit_code=$?
+        if [ $exit_code -ne 0 ]; then
+          echo "Tests failed with exit code $exit_code"
+          exit $exit_code
+        fi
         
     - name: Test basic functionality
       run: |
