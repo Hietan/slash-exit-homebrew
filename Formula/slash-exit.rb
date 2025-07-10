@@ -2,7 +2,7 @@ class SlashExit < Formula
   desc "A joke command for /exit typos, inspired by sl command"
   homepage "https://github.com/Hietan/slash-exit-homebrew"
   url "https://github.com/Hietan/slash-exit-homebrew/archive/refs/tags/v1.0.0.tar.gz"
-  sha256 "9692368a8aa30474c369f74272bfb270764189da658c0fd478604e1a43e4ea15"
+  sha256 "9f4c416dc3f0c32914196775d5f7c4e2b2e45bd506516700cb0275c72b10e347"
   license "Apache-2.0"
   version "1.0.0"
 
