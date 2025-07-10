@@ -21,22 +21,6 @@
 
 ---
 
-## 🎬 Demo
-
-When you accidentally type `/exit`, you'll see:
-
-<div align="center">
-
-| Stage | Duration | Description |
-|-------|----------|-------------|
-| 🚪 **Door Animation** | 3 seconds | Door opens, shakes, and slams shut with sound effects |
-| 🌍 **Multilingual Goodbye** | 2 seconds | "Goodbye" in 10 different languages with flag emojis |
-| 😄 **Friendly Reminder** | - | Helpful message about the correct command |
-
-</div>
-
-> **Try it yourself:** After installation, just type `/exit` in your terminal!
-
 ## 📥 Installation
 
 <div align="center">
@@ -87,6 +71,26 @@ chmod +x bin/slash-exit bin/slash-exit-enable
 # Check if the command is available
 which slash-exit
 ```
+
+---
+
+## 🎬 Demo
+
+![ezgif-163ce21e236b94](https://github.com/user-attachments/assets/251e4952-ab9a-4412-a304-b5ef7f75479d)
+
+When you accidentally type `/exit`, you'll see:
+
+<div align="center">
+
+| Stage | Duration | Description |
+|-------|----------|-------------|
+| 🚪 **Door Animation** | 3 seconds | Door opens, shakes, and slams shut with sound effects |
+| 🌍 **Multilingual Goodbye** | 2 seconds | "Goodbye" in 10 different languages with flag emojis |
+| 😄 **Friendly Reminder** | - | Helpful message about the correct command |
+
+</div>
+
+> **Try it yourself:** After installation, just type `/exit` in your terminal!
 
 ## 📚 What does it do?
 
