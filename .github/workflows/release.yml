@@ -1,0 +1,111 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up environment
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y shellcheck
+        
+    - name: Make scripts executable
+      run: |
+        chmod +x bin/slash-exit
+        chmod +x bin/slash-exit-enable
+        chmod +x tests/test_slash_exit.sh
+        
+    - name: Run tests
+      run: |
+        ./tests/test_slash_exit.sh
+
+  release:
+    needs: test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Get tag version
+      id: tag
+      run: |
+        TAG=${GITHUB_REF#refs/tags/}
+        echo "version=${TAG}" >> $GITHUB_OUTPUT
+        echo "version_number=${TAG#v}" >> $GITHUB_OUTPUT
+        
+    - name: Create release tarball
+      run: |
+        # Create a clean tarball
+        git archive --format=tar.gz --prefix=slash-exit-homebrew-${{ steps.tag.outputs.version_number }}/ HEAD > slash-exit-homebrew-${{ steps.tag.outputs.version_number }}.tar.gz
+        
+    - name: Calculate SHA256
+      id: sha256
+      run: |
+        SHA256=$(sha256sum slash-exit-homebrew-${{ steps.tag.outputs.version_number }}.tar.gz | cut -d' ' -f1)
+        echo "sha256=${SHA256}" >> $GITHUB_OUTPUT
+        echo "SHA256: ${SHA256}"
+        
+    - name: Create GitHub Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.tag.outputs.version }}
+        release_name: ${{ steps.tag.outputs.version }}
+        body: |
+          ## Changes in ${{ steps.tag.outputs.version }}
+          
+          A fun command for when you accidentally type `/exit` instead of `exit`. 
+          Perfect for Claude Code users! 🚀
+          
+          ### Installation
+          
+          ```bash
+          brew tap Hietan/tap
+          brew install slash-exit
+          slash-exit-enable
+          ```
+          
+          ### What's included
+          - `slash-exit`: Main animation command
+          - `slash-exit-enable`: Setup script for shell integration
+          
+          ### SHA256 Checksum
+          ```
+          ${{ steps.sha256.outputs.sha256 }}
+          ```
+          
+          See [CHANGELOG.md](https://github.com/Hietan/slash-exit-homebrew/blob/main/CHANGELOG.md) for detailed changes.
+        draft: false
+        prerelease: false
+        
+    - name: Upload release tarball
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./slash-exit-homebrew-${{ steps.tag.outputs.version_number }}.tar.gz
+        asset_name: slash-exit-homebrew-${{ steps.tag.outputs.version_number }}.tar.gz
+        asset_content_type: application/gzip
+        
+    - name: Output Formula update info
+      run: |
+        echo "## Homebrew Formula Update Required"
+        echo "Update the following in your homebrew-tap repository:"
+        echo ""
+        echo "URL: https://github.com/Hietan/slash-exit-homebrew/archive/refs/tags/${{ steps.tag.outputs.version }}.tar.gz"
+        echo "SHA256: ${{ steps.sha256.outputs.sha256 }}"
+        echo "Version: ${{ steps.tag.outputs.version_number }}"
+        echo ""
+        echo "Formula file: Formula/slash-exit.rb"

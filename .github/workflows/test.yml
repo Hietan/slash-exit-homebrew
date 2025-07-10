@@ -1,0 +1,87 @@
+name: Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up environment
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y shellcheck
+        
+    - name: Make scripts executable
+      run: |
+        chmod +x bin/slash-exit
+        chmod +x bin/slash-exit-enable
+        chmod +x tests/test_slash_exit.sh
+        
+    - name: Run ShellCheck
+      run: |
+        shellcheck bin/slash-exit
+        shellcheck bin/slash-exit-enable
+        shellcheck tests/test_slash_exit.sh
+        
+    - name: Run test suite
+      run: |
+        ./tests/test_slash_exit.sh
+        
+    - name: Test basic functionality
+      run: |
+        # Test that slash-exit runs without error
+        SLASH_EXIT_DEBUG=1 ./bin/slash-exit
+        
+        # Test that slash-exit-enable shows help
+        ./bin/slash-exit-enable -h
+        
+    - name: Test in different environments
+      run: |
+        # Test with minimal terminal
+        COLUMNS=80 LINES=24 SLASH_EXIT_DEBUG=1 ./bin/slash-exit
+        
+        # Test with no color support
+        TERM=dumb SLASH_EXIT_DEBUG=1 ./bin/slash-exit
+        
+        # Test with different shell detection
+        SHELL=/bin/bash ./bin/slash-exit-enable -h
+        SHELL=/bin/zsh ./bin/slash-exit-enable -h
+
+  compatibility:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Install dependencies (Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y shellcheck
+        
+    - name: Install dependencies (macOS)
+      if: matrix.os == 'macos-latest'
+      run: |
+        brew install shellcheck
+        
+    - name: Make scripts executable
+      run: |
+        chmod +x bin/slash-exit
+        chmod +x bin/slash-exit-enable
+        
+    - name: Test basic functionality
+      run: |
+        SLASH_EXIT_DEBUG=1 ./bin/slash-exit
+        ./bin/slash-exit-enable -h
