@@ -231,9 +231,14 @@ get_goodbye_message() {
 animate_goodbye() {
     log_debug "Starting goodbye animation"
     
+    # Clear screen once at the start
+    clear_screen
+    
+    # Position cursor in center area
+    local start_line=$((TERMINAL_HEIGHT / 2 - 5))
+    tput cup $start_line 0
+    
     for i in {1..10}; do
-        clear_screen
-        
         # Get goodbye message
         local goodbye_msg
         goodbye_msg=$(get_goodbye_message $i)
