@@ -3,7 +3,7 @@
 # slash-exit - A fun command for /exit typos
 # Inspired by sl command, designed for Claude Code users
 
-set -euo pipefail
+set -eo pipefail
 
 # Color definitions
 RED='\033[0;31m'
@@ -23,7 +23,9 @@ DEBUG_MODE=${SLASH_EXIT_DEBUG:-0}
 
 # Utility functions
 log_debug() {
-    [[ $DEBUG_MODE -eq 1 ]] && echo "[DEBUG] $*" >&2
+    if [[ ${DEBUG_MODE:-0} -eq 1 ]]; then
+        echo "[DEBUG] $*" >&2
+    fi
 }
 
 check_terminal_size() {
@@ -36,7 +38,6 @@ check_terminal_size() {
     
     if [[ $width -lt 80 || $height -lt 24 ]]; then
         echo "Warning: Terminal too small (${width}x${height}). Recommended: 80x24 or larger." >&2
-        return 1
     fi
     return 0
 }
@@ -74,13 +75,12 @@ show_cursor() {
 cleanup() {
     show_cursor
     echo
-    exit 0
 }
 
 # Initialize
 initialize() {
     # Disable Ctrl+C during animation
-    trap 'cleanup' INT TERM EXIT
+    trap 'cleanup' INT TERM
     
     # Check terminal capabilities
     check_terminal_size
@@ -297,7 +297,6 @@ main() {
         animate_goodbye
         sleep 0.5
         show_final_message
-        cleanup
         return 0
     fi
     
@@ -310,6 +309,7 @@ main() {
     # Phase 3: Final message
     show_final_message
     
+    # Cleanup before exit
     cleanup
 }
 
