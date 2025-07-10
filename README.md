@@ -11,7 +11,7 @@
 
 **A fun command for when you accidentally type `/exit` instead of `exit`.**
 
-*Inspired by the classic `sl` (Steam Locomotive) command.*
+*Inspired by the classic `sl` command.*
 
 🚀 **Perfect for Claude Code users!** 🚀
 
