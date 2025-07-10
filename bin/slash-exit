@@ -54,7 +54,6 @@ check_color_support() {
         GREEN=''
         YELLOW=''
         BLUE=''
-        PURPLE=''
         CYAN=''
         WHITE=''
         NC=''
@@ -176,7 +175,7 @@ animate_door() {
         
         # Center the door horizontally
         local door_content
-        door_content=$(get_door_frame $frame $((frame % 2)))
+        door_content=$(get_door_frame "$frame" $((frame % 2)))
         
         # Calculate centering
         local door_width=16
@@ -191,7 +190,7 @@ animate_door() {
         # Print sound effect below door
         echo
         local sound_effect
-        sound_effect=$(get_sound_effect $frame)
+        sound_effect=$(get_sound_effect "$frame")
         local sound_width=20
         local sound_col=$(( (TERMINAL_WIDTH - sound_width) / 2 ))
         printf "%*s" $sound_col ""
@@ -247,7 +246,7 @@ animate_goodbye() {
     for i in {1..10}; do
         # Get goodbye message
         local goodbye_msg
-        goodbye_msg=$(get_goodbye_message $i)
+        goodbye_msg=$(get_goodbye_message "$i")
         
         # Center the message
         local msg_width=20
