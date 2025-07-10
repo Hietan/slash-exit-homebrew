@@ -197,13 +197,19 @@ animate_door() {
         printf "%*s" $sound_col ""
         echo -e "$sound_effect"
         
-        # Frame timing
+        # Frame timing - more dramatic pacing
         if [[ $frame -le 3 ]]; then
-            sleep 0.4  # Slow opening
+            sleep 0.6  # Slower opening for buildup
         elif [[ $frame -le 6 ]]; then
-            sleep 0.3  # Medium shaking
+            sleep 0.4  # Medium shaking
+        elif [[ $frame -eq 7 ]]; then
+            sleep 0.3  # Pause before slam
+        elif [[ $frame -eq 8 ]]; then
+            sleep 0.8  # Long pause after slam for impact
+        elif [[ $frame -eq 9 ]]; then
+            sleep 0.4  # Build tension before lock
         else
-            sleep 0.2  # Fast closing
+            sleep 1.0  # Final dramatic pause after lock
         fi
     done
     
@@ -259,7 +265,7 @@ animate_goodbye() {
         printf "%*s" $start_col ""
         echo -e "${color}${goodbye_msg}${NC}"
         
-        sleep 0.2
+        sleep 0.35  # Slower for better reading
     done
     
     log_debug "Goodbye animation complete"
@@ -286,7 +292,7 @@ show_final_message() {
     printf "%*s" $start_col2 ""
     echo -e "${CYAN}${msg2}${NC}"
     
-    sleep 2
+    sleep 3  # Longer pause to read the message
     
     log_debug "Final message complete"
 }
