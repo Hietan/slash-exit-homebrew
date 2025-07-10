@@ -1,20 +1,49 @@
 # slash-exit
 
-A fun command for when you accidentally type `/exit` instead of `exit`. 
-Inspired by the classic `sl` (Steam Locomotive) command.
+<div align="center">
 
-Perfect for Claude Code users! 🚀
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/Hietan/slash-exit-homebrew?style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/Hietan/slash-exit-homebrew?style=for-the-badge)
+![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux-blue?style=for-the-badge)
+![Shell](https://img.shields.io/badge/shell-zsh%20%7C%20bash-green?style=for-the-badge)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Hietan/slash-exit-homebrew/test.yml?style=for-the-badge&label=tests)
+![Homebrew](https://img.shields.io/badge/homebrew-supported-orange?style=for-the-badge)
 
-## Demo
+**A fun command for when you accidentally type `/exit` instead of `exit`.**
+
+*Inspired by the classic `sl` (Steam Locomotive) command.*
+
+🚀 **Perfect for Claude Code users!** 🚀
+
+[📥 Install](#installation) • [🎬 Demo](#demo) • [📚 Documentation](#what-does-it-do) • [🤝 Contributing](#contributing)
+
+</div>
+
+---
+
+## 🎬 Demo
 
 When you accidentally type `/exit`, you'll see:
-- 🚪 An animated door closing with sound effects
-- 🌍 "Goodbye" in 10 different languages
-- 😄 A friendly reminder about the correct command
 
-## Installation
+<div align="center">
 
-### Via Homebrew (Recommended)
+| Stage | Duration | Description |
+|-------|----------|-------------|
+| 🚪 **Door Animation** | 3 seconds | Door opens, shakes, and slams shut with sound effects |
+| 🌍 **Multilingual Goodbye** | 2 seconds | "Goodbye" in 10 different languages with flag emojis |
+| 😄 **Friendly Reminder** | - | Helpful message about the correct command |
+
+</div>
+
+> **Try it yourself:** After installation, just type `/exit` in your terminal!
+
+## 📥 Installation
+
+<div align="center">
+
+### 🍺 Via Homebrew (Recommended)
+
+</div>
 
 ```bash
 # Add the tap
@@ -27,7 +56,11 @@ brew install slash-exit
 slash-exit-enable
 ```
 
-### Manual Installation
+<div align="center">
+
+### 🔧 Manual Installation
+
+</div>
 
 ```bash
 # Clone the repository
@@ -41,80 +74,166 @@ chmod +x bin/slash-exit bin/slash-exit-enable
 ./bin/slash-exit-enable
 ```
 
-## What does it do?
+<div align="center">
 
-### Animation Sequence
+### ✅ Verification
 
-1. **Door Animation (3 seconds)**
-   - Door slowly opens
-   - Door shakes and rattles
-   - Door slams shut with a *SLAM!*
-   - Lock clicks into place with *CLICK!*
+</div>
 
-2. **Multilingual Goodbye (2 seconds)**
-   - Displays "Goodbye" in 10 languages with flag emojis
-   - Languages: English, Japanese, French, German, Italian, Spanish, Chinese, Korean, Russian, Portuguese
-   - Each message appears with color cycling
+```bash
+# Test the installation
+/exit
 
-3. **Final Message**
-   - Helpful reminder: "But don't worry, you're still here! 😄"
-   - Instructions: "To actually exit, type 'exit' (without the slash)"
+# Check if the command is available
+which slash-exit
+```
 
-### Supported Languages
+## 📚 What does it do?
 
-- 🇬🇧 English: "Goodbye!"
-- 🇯🇵 Japanese: "さようなら！"
-- 🇫🇷 French: "Au revoir!"
-- 🇩🇪 German: "Auf Wiedersehen!"
-- 🇮🇹 Italian: "Arrivederci!"
-- 🇪🇸 Spanish: "¡Adiós!"
-- 🇨🇳 Chinese: "再见!"
-- 🇰🇷 Korean: "안녕히 가세요!"
-- 🇷🇺 Russian: "До свидания!"
-- 🇧🇷 Portuguese: "Tchau!"
+<div align="center">
 
-## For Claude Code Users
+### 🎭 Animation Sequence
 
-We know that typing `/exit` instead of `exit` is a common mistake when using Claude Code. 
-This command turns that frustrating moment into a fun, entertaining experience!
+</div>
 
-## Commands
+<details>
+<summary><strong>🚪 Door Animation (3 seconds)</strong></summary>
 
-### `slash-exit`
+- Door slowly opens
+- Door shakes and rattles
+- Door slams shut with a *SLAM!*
+- Lock clicks into place with *CLICK!*
+
+</details>
+
+<details>
+<summary><strong>🌍 Multilingual Goodbye (2 seconds)</strong></summary>
+
+- Displays "Goodbye" in 10 languages with flag emojis
+- Languages: English, Japanese, French, German, Italian, Spanish, Chinese, Korean, Russian, Portuguese
+- Each message appears with color cycling
+
+</details>
+
+<details>
+<summary><strong>😄 Final Message</strong></summary>
+
+- Helpful reminder: "But don't worry, you're still here! 😄"
+- Instructions: "To actually exit, type 'exit' (without the slash)"
+
+</details>
+
+<div align="center">
+
+### 🗺️ Supported Languages
+
+</div>
+
+<div align="center">
+
+| Flag | Language | Text |
+|------|----------|------|
+| 🇬🇧 | English | "Goodbye!" |
+| 🇯🇵 | Japanese | "さようなら！" |
+| 🇫🇷 | French | "Au revoir!" |
+| 🇩🇪 | German | "Auf Wiedersehen!" |
+| 🇮🇹 | Italian | "Arrivederci!" |
+| 🇪🇸 | Spanish | "¡Adiós!" |
+| 🇨🇳 | Chinese | "再见!" |
+| 🇰🇷 | Korean | "안녕히 가세요!" |
+| 🇷🇺 | Russian | "До свидания!" |
+| 🇧🇷 | Portuguese | "Tchau!" |
+
+</div>
+
+## 🤖 For Claude Code Users
+
+<div align="center">
+
+We know that typing `/exit` instead of `exit` is a common mistake when using Claude Code.  
+This command turns that frustrating moment into a **fun, entertaining experience**!
+
+> *"Turn your typos into entertainment!"* 🎉
+
+</div>
+
+## 🛠️ Commands
+
+<div align="center">
+
+### ⚡ `slash-exit`
+
+</div>
+
 The main command that displays the animation. You can run it directly:
 
 ```bash
 slash-exit
 ```
 
-### `slash-exit-enable`
+<div align="center">
+
+### 🔧 `slash-exit-enable`
+
+</div>
+
 Setup script that adds the `/exit` function to your shell configuration:
 
 ```bash
 slash-exit-enable
 ```
 
-**Features:**
-- Automatically detects your shell (zsh, bash)
-- Creates timestamped backups of your config files
-- Safely adds shell function without conflicts
-- Interactive confirmation prompts
+<div align="center">
 
-## Technical Details
+**✨ Features:**
+- 🔍 Automatically detects your shell (zsh, bash)
+- 🛡️ Creates timestamped backups of your config files
+- 🔐 Safely adds shell function without conflicts
+- 💬 Interactive confirmation prompts
 
-### Requirements
-- macOS or Linux
-- Terminal with color support (optional)
-- Bash or Zsh shell
+</div>
 
-### Features
-- **Responsive Design**: Adapts to terminal size
-- **Color Support**: Automatic detection with monochrome fallback
-- **Error Handling**: Graceful degradation for small terminals
-- **Debug Mode**: `SLASH_EXIT_DEBUG=1` for quick testing
-- **Safe Installation**: Backup creation and conflict detection
+## ⚙️ Technical Details
 
-### Shell Integration
+<div align="center">
+
+### 📋 Requirements
+
+</div>
+
+<div align="center">
+
+| Requirement | Status |
+|-------------|--------|
+| 🍎 macOS or 🐧 Linux | ✅ Supported |
+| 🎨 Terminal with color support | ⚠️ Optional |
+| 🐚 Bash or Zsh shell | ✅ Required |
+
+</div>
+
+<div align="center">
+
+### 🚀 Features
+
+</div>
+
+<div align="center">
+
+| Feature | Description |
+|---------|-------------|
+| 📱 **Responsive Design** | Adapts to terminal size |
+| 🎨 **Color Support** | Automatic detection with monochrome fallback |
+| 🛡️ **Error Handling** | Graceful degradation for small terminals |
+| 🐛 **Debug Mode** | `SLASH_EXIT_DEBUG=1` for quick testing |
+| 🔒 **Safe Installation** | Backup creation and conflict detection |
+
+</div>
+
+<div align="center">
+
+### 🔌 Shell Integration
+
+</div>
 
 The setup script adds this function to your shell config:
 
@@ -125,9 +244,13 @@ The setup script adds this function to your shell config:
 }
 ```
 
-## Development
+## 🔧 Development
 
-### Running Tests
+<div align="center">
+
+### 🧪 Running Tests
+
+</div>
 
 ```bash
 # Run the full test suite
@@ -137,43 +260,139 @@ The setup script adds this function to your shell config:
 shellcheck bin/slash-exit bin/slash-exit-enable
 ```
 
-### Project Structure
+<div align="center">
+
+### 📁 Project Structure
+
+</div>
 
 ```
 slash-exit-homebrew/
-├── bin/
-│   ├── slash-exit           # Main animation script
-│   └── slash-exit-enable    # Setup script
-├── Formula/
-│   └── slash-exit.rb        # Homebrew Formula
-├── tests/
-│   └── test_slash_exit.sh   # Test suite
-├── .github/workflows/
-│   ├── test.yml             # CI: Tests
-│   └── release.yml          # CD: Release automation
-└── README.md
+├── 📁 bin/
+│   ├── 🚀 slash-exit           # Main animation script
+│   └── ⚙️ slash-exit-enable    # Setup script
+├── 📁 Formula/
+│   └── 🍺 slash-exit.rb        # Homebrew Formula
+├── 📁 tests/
+│   └── 🧪 test_slash_exit.sh   # Test suite
+├── 📁 .github/
+│   ├── 📁 workflows/
+│   │   ├── ✅ test.yml         # CI: Tests
+│   │   └── 🚀 release.yml      # CD: Release automation
+│   └── 📁 ISSUE_TEMPLATE/
+│       ├── 🐛 bug_report.yml
+│       └── ✨ feature_request.yml
+└── 📄 README.md
 ```
 
-## Contributing
+## 🤝 Contributing
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes
-4. Run tests (`./tests/test_slash_exit.sh`)
-5. Commit your changes (`git commit -m 'Add amazing feature'`)
-6. Push to the branch (`git push origin feature/amazing-feature`)
-7. Open a Pull Request
+<div align="center">
 
-## License
+**We welcome contributions!** 🎉
 
-This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+</div>
 
-## Acknowledgments
+<div align="center">
 
-- Inspired by the classic `sl` (Steam Locomotive) command
-- Created with love for the Claude Code community
-- Special thanks to all the beta testers who accidentally typed `/exit` 😄
+### 🚀 Quick Start
+
+</div>
+
+1. 🍴 **Fork** the repository
+2. 🌿 **Create** your feature branch (`git checkout -b feature/amazing-feature`)
+3. ✨ **Make** your changes
+4. 🧪 **Run** tests (`./tests/test_slash_exit.sh`)
+5. 📝 **Commit** your changes (`git commit -m 'Add amazing feature'`)
+6. 🚀 **Push** to the branch (`git push origin feature/amazing-feature`)
+7. 🔀 **Open** a Pull Request
+
+<div align="center">
+
+### 📝 Guidelines
+
+</div>
+
+<div align="center">
+
+| Type | Description |
+|------|-------------|
+| 🐛 **Bug Fix** | Fix existing functionality |
+| ✨ **Feature** | Add new functionality |
+| 📚 **Documentation** | Improve documentation |
+| 🎨 **Style** | Code formatting changes |
+| ♻️ **Refactor** | Code restructuring |
+| 🧪 **Test** | Add or update tests |
+
+</div>
+
+<div align="center">
+
+### 💡 Ideas for Contributions
+
+</div>
+
+- 🎨 New animation themes
+- 🌍 Additional language support
+- 🔧 Performance improvements
+- 📱 Mobile terminal support
+- 🎵 Sound effects (optional)
+- 🏃‍♂️ Faster animation modes
+
+<div align="center">
+
+**See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines**
+
+</div>
+
+## 📜 License
+
+<div align="center">
+
+This project is licensed under the **Apache License 2.0**  
+See the [LICENSE](LICENSE) file for details.
+
+</div>
+
+## 🙏 Acknowledgments
+
+<div align="center">
+
+- 🚂 Inspired by the classic `sl` (Steam Locomotive) command
+- 💝 Created with love for the Claude Code community
+- 🎉 Special thanks to all the beta testers who accidentally typed `/exit` 😄
+
+</div>
 
 ---
 
+<div align="center">
+
+### 🌟 Show Your Support
+
+If you found this project helpful, please consider:
+
+[![GitHub stars](https://img.shields.io/github/stars/Hietan/slash-exit-homebrew?style=social)](https://github.com/Hietan/slash-exit-homebrew/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/Hietan/slash-exit-homebrew?style=social)](https://github.com/Hietan/slash-exit-homebrew/network/members)
+
+**⭐ Star this repo** • **🍴 Fork it** • **📢 Share it**
+
+</div>
+
+<div align="center">
+
+### 📬 Connect
+
+[![GitHub](https://img.shields.io/badge/GitHub-Hietan-black?style=for-the-badge&logo=github)](https://github.com/Hietan)
+
 *Made with ❤️ by [Hietan](https://github.com/Hietan)*
+
+</div>
+
+<div align="center">
+
+---
+
+*Remember: It's `/exit` for fun, `exit` for real! 🚪✨*
+
+</div>
