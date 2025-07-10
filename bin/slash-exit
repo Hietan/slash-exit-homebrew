@@ -210,13 +210,93 @@ animate_door() {
     log_debug "Door animation complete"
 }
 
+# Multilingual goodbye messages
+get_goodbye_message() {
+    local index=$1
+    case $index in
+        1) echo "🇬🇧 Goodbye!" ;;
+        2) echo "🇯🇵 さようなら！" ;;
+        3) echo "🇫🇷 Au revoir!" ;;
+        4) echo "🇩🇪 Auf Wiedersehen!" ;;
+        5) echo "🇮🇹 Arrivederci!" ;;
+        6) echo "🇪🇸 ¡Adiós!" ;;
+        7) echo "🇨🇳 再见!" ;;
+        8) echo "🇰🇷 안녕히 가세요!" ;;
+        9) echo "🇷🇺 До свидания!" ;;
+        10) echo "🇧🇷 Tchau!" ;;
+    esac
+}
+
+# Animate goodbye sequence
+animate_goodbye() {
+    log_debug "Starting goodbye animation"
+    
+    for i in {1..10}; do
+        clear_screen
+        
+        # Get goodbye message
+        local goodbye_msg
+        goodbye_msg=$(get_goodbye_message $i)
+        
+        # Center the message
+        local msg_width=20
+        local start_col=$(( (TERMINAL_WIDTH - msg_width) / 2 ))
+        
+        # Display with color cycling
+        local color=""
+        case $((i % 4)) in
+            0) color="${RED}" ;;
+            1) color="${GREEN}" ;;
+            2) color="${BLUE}" ;;
+            3) color="${YELLOW}" ;;
+        esac
+        
+        printf "%*s" $start_col ""
+        echo -e "${color}${goodbye_msg}${NC}"
+        
+        sleep 0.2
+    done
+    
+    log_debug "Goodbye animation complete"
+}
+
+# Display final message
+show_final_message() {
+    log_debug "Showing final message"
+    
+    clear_screen
+    
+    # Center the final message
+    local msg1="But don't worry, you're still here! 😄"
+    local msg2="To actually exit, type 'exit' (without the slash)"
+    
+    local msg1_width=40
+    local msg2_width=45
+    local start_col1=$(( (TERMINAL_WIDTH - msg1_width) / 2 ))
+    local start_col2=$(( (TERMINAL_WIDTH - msg2_width) / 2 ))
+    
+    printf "%*s" $start_col1 ""
+    echo -e "${GREEN}${msg1}${NC}"
+    echo
+    printf "%*s" $start_col2 ""
+    echo -e "${CYAN}${msg2}${NC}"
+    
+    sleep 2
+    
+    log_debug "Final message complete"
+}
+
 # Main function
 main() {
     initialize
     
     if [[ $DEBUG_MODE -eq 1 ]]; then
-        echo "Debug mode - running quick test"
+        echo "Debug mode - running full animation"
         animate_door
+        sleep 0.5
+        animate_goodbye
+        sleep 0.5
+        show_final_message
         cleanup
         return 0
     fi
@@ -224,9 +304,11 @@ main() {
     # Phase 1: Door animation (3 seconds)
     animate_door
     
-    # TODO: Add multilingual goodbye phase
-    sleep 1
-    echo "Next: Multilingual goodbye animation"
+    # Phase 2: Multilingual goodbye (2 seconds)
+    animate_goodbye
+    
+    # Phase 3: Final message
+    show_final_message
     
     cleanup
 }
