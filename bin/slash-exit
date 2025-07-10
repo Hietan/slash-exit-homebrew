@@ -1,0 +1,241 @@
+#!/bin/bash
+
+# slash-exit - A fun command for /exit typos
+# Inspired by sl command, designed for Claude Code users
+
+set -euo pipefail
+
+# Color definitions
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
+WHITE='\033[1;37m'
+NC='\033[0m' # No Color
+
+# Global variables
+TERMINAL_WIDTH=80
+TERMINAL_HEIGHT=24
+HAS_COLOR=1
+DEBUG_MODE=${SLASH_EXIT_DEBUG:-0}
+
+# Utility functions
+log_debug() {
+    [[ $DEBUG_MODE -eq 1 ]] && echo "[DEBUG] $*" >&2
+}
+
+check_terminal_size() {
+    local width height
+    width=$(tput cols 2>/dev/null || echo 80)
+    height=$(tput lines 2>/dev/null || echo 24)
+    
+    TERMINAL_WIDTH=$width
+    TERMINAL_HEIGHT=$height
+    
+    if [[ $width -lt 80 || $height -lt 24 ]]; then
+        echo "Warning: Terminal too small (${width}x${height}). Recommended: 80x24 or larger." >&2
+        return 1
+    fi
+    return 0
+}
+
+check_color_support() {
+    local colors
+    colors=$(tput colors 2>/dev/null || echo 0)
+    
+    if [[ $colors -lt 8 ]]; then
+        HAS_COLOR=0
+        log_debug "Color not supported, using monochrome mode"
+        # Reset color codes for monochrome
+        RED=''
+        GREEN=''
+        YELLOW=''
+        BLUE=''
+        PURPLE=''
+        CYAN=''
+        WHITE=''
+        NC=''
+    else
+        log_debug "Color supported: $colors colors"
+    fi
+}
+
+# Cursor and signal handling
+hide_cursor() {
+    tput civis 2>/dev/null || true
+}
+
+show_cursor() {
+    tput cnorm 2>/dev/null || true
+}
+
+cleanup() {
+    show_cursor
+    echo
+    exit 0
+}
+
+# Initialize
+initialize() {
+    # Disable Ctrl+C during animation
+    trap 'cleanup' INT TERM EXIT
+    
+    # Check terminal capabilities
+    check_terminal_size
+    check_color_support
+    
+    # Hide cursor during animation
+    hide_cursor
+    
+    log_debug "Initialization complete"
+}
+
+# Door animation frames
+get_door_frame() {
+    local frame=$1
+    local exit_blink=${2:-0}
+    
+    local exit_color=""
+    if [[ $exit_blink -eq 1 ]]; then
+        exit_color="${RED}"
+    else
+        exit_color="${WHITE}"
+    fi
+    
+    case $frame in
+        1|2|3) # Door slightly open
+            cat <<EOF
+    ╔════════════╗
+    ║  ${exit_color}EXIT${NC}      ║
+    ║   ____     ║
+    ║  |    |\\   ║
+    ║  |  ◯ | \\  ║
+    ║  |____|  \\ ║
+    ║           \\║
+    ╚════════════╝
+EOF
+            ;;
+        4|5|6) # Door shaking, closing
+            cat <<EOF
+    ╔════════════╗
+    ║  ${exit_color}EXIT${NC}      ║
+    ║   ____     ║
+    ║  |    |)   ║
+    ║  |  ◯ |))  ║
+    ║  |____|)   ║
+    ║            ║
+    ╚════════════╝
+EOF
+            ;;
+        7|8) # Door slamming shut
+            cat <<EOF
+    ╔════════════╗
+    ║  ${exit_color}EXIT${NC}      ║
+    ║   ____     ║
+    ║  |    |    ║
+    ║  |  ◯ |    ║
+    ║  |____|    ║
+    ║            ║
+    ╚════════════╝
+EOF
+            ;;
+        9|10) # Door locked
+            cat <<EOF
+    ╔════════════╗
+    ║  ${exit_color}EXIT${NC}      ║
+    ║   ____     ║
+    ║  |    |    ║
+    ║  |  ◯ |🔒  ║
+    ║  |____|    ║
+    ║            ║
+    ╚════════════╝
+EOF
+            ;;
+    esac
+}
+
+# Sound effects
+get_sound_effect() {
+    local frame=$1
+    case $frame in
+        1|2|3) echo "${YELLOW}*CREAK*${NC}" ;;
+        4|5|6) echo "${YELLOW}*RATTLE* *SHAKE*${NC}" ;;
+        7|8) echo "${RED}*SLAM!*${NC}" ;;
+        9|10) echo "${GREEN}*CLICK!*${NC}" ;;
+    esac
+}
+
+# Clear screen and position cursor
+clear_screen() {
+    clear
+    # Position cursor for centered display
+    local start_line=$((TERMINAL_HEIGHT / 2 - 4))
+    tput cup $start_line 0
+}
+
+# Animate door closing
+animate_door() {
+    log_debug "Starting door animation"
+    
+    for frame in {1..10}; do
+        clear_screen
+        
+        # Center the door horizontally
+        local door_content
+        door_content=$(get_door_frame $frame $((frame % 2)))
+        
+        # Calculate centering
+        local door_width=16
+        local start_col=$(( (TERMINAL_WIDTH - door_width) / 2 ))
+        
+        # Print door with centering
+        while IFS= read -r line; do
+            printf "%*s%s\n" $start_col "" "$line"
+        done <<< "$door_content"
+        
+        # Print sound effect below door
+        echo
+        local sound_effect
+        sound_effect=$(get_sound_effect $frame)
+        local sound_width=20
+        local sound_col=$(( (TERMINAL_WIDTH - sound_width) / 2 ))
+        printf "%*s%s\n" $sound_col "" "$sound_effect"
+        
+        # Frame timing
+        if [[ $frame -le 3 ]]; then
+            sleep 0.4  # Slow opening
+        elif [[ $frame -le 6 ]]; then
+            sleep 0.3  # Medium shaking
+        else
+            sleep 0.2  # Fast closing
+        fi
+    done
+    
+    log_debug "Door animation complete"
+}
+
+# Main function
+main() {
+    initialize
+    
+    if [[ $DEBUG_MODE -eq 1 ]]; then
+        echo "Debug mode - running quick test"
+        animate_door
+        cleanup
+        return 0
+    fi
+    
+    # Phase 1: Door animation (3 seconds)
+    animate_door
+    
+    # TODO: Add multilingual goodbye phase
+    sleep 1
+    echo "Next: Multilingual goodbye animation"
+    
+    cleanup
+}
+
+# Run main function
+main "$@"
