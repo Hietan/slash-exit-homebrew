@@ -106,52 +106,44 @@ get_door_frame() {
     
     case $frame in
         1|2|3) # Door slightly open
-            cat <<EOF
-    ╔════════════╗
-    ║  ${exit_color}EXIT${NC}      ║
-    ║   ____     ║
-    ║  |    |\\   ║
-    ║  |  ◯ | \\  ║
-    ║  |____|  \\ ║
-    ║           \\║
-    ╚════════════╝
-EOF
+            echo "    ╔════════════╗"
+            echo -e "    ║  ${exit_color}EXIT${NC}      ║"
+            echo "    ║   ____     ║"
+            echo "    ║  |    |\\   ║"
+            echo "    ║  |  ◯ | \\  ║"
+            echo "    ║  |____|  \\ ║"
+            echo "    ║           \\║"
+            echo "    ╚════════════╝"
             ;;
         4|5|6) # Door shaking, closing
-            cat <<EOF
-    ╔════════════╗
-    ║  ${exit_color}EXIT${NC}      ║
-    ║   ____     ║
-    ║  |    |)   ║
-    ║  |  ◯ |))  ║
-    ║  |____|)   ║
-    ║            ║
-    ╚════════════╝
-EOF
+            echo "    ╔════════════╗"
+            echo -e "    ║  ${exit_color}EXIT${NC}      ║"
+            echo "    ║   ____     ║"
+            echo "    ║  |    |)   ║"
+            echo "    ║  |  ◯ |))  ║"
+            echo "    ║  |____|)   ║"
+            echo "    ║            ║"
+            echo "    ╚════════════╝"
             ;;
         7|8) # Door slamming shut
-            cat <<EOF
-    ╔════════════╗
-    ║  ${exit_color}EXIT${NC}      ║
-    ║   ____     ║
-    ║  |    |    ║
-    ║  |  ◯ |    ║
-    ║  |____|    ║
-    ║            ║
-    ╚════════════╝
-EOF
+            echo "    ╔════════════╗"
+            echo -e "    ║  ${exit_color}EXIT${NC}      ║"
+            echo "    ║   ____     ║"
+            echo "    ║  |    |    ║"
+            echo "    ║  |  ◯ |    ║"
+            echo "    ║  |____|    ║"
+            echo "    ║            ║"
+            echo "    ╚════════════╝"
             ;;
         9|10) # Door locked
-            cat <<EOF
-    ╔════════════╗
-    ║  ${exit_color}EXIT${NC}      ║
-    ║   ____     ║
-    ║  |    |    ║
-    ║  |  ◯ |🔒  ║
-    ║  |____|    ║
-    ║            ║
-    ╚════════════╝
-EOF
+            echo "    ╔════════════╗"
+            echo -e "    ║  ${exit_color}EXIT${NC}      ║"
+            echo "    ║   ____     ║"
+            echo "    ║  |    |    ║"
+            echo "    ║  |  ◯ |🔒  ║"
+            echo "    ║  |____|    ║"
+            echo "    ║            ║"
+            echo "    ╚════════════╝"
             ;;
     esac
 }
@@ -191,9 +183,10 @@ animate_door() {
         local start_col=$(( (TERMINAL_WIDTH - door_width) / 2 ))
         
         # Print door with centering
-        while IFS= read -r line; do
-            printf "%*s%s\n" $start_col "" "$line"
-        done <<< "$door_content"
+        echo "$door_content" | while IFS= read -r line; do
+            printf "%*s" $start_col ""
+            echo -e "$line"
+        done
         
         # Print sound effect below door
         echo
@@ -201,7 +194,8 @@ animate_door() {
         sound_effect=$(get_sound_effect $frame)
         local sound_width=20
         local sound_col=$(( (TERMINAL_WIDTH - sound_width) / 2 ))
-        printf "%*s%s\n" $sound_col "" "$sound_effect"
+        printf "%*s" $sound_col ""
+        echo -e "$sound_effect"
         
         # Frame timing
         if [[ $frame -le 3 ]]; then
