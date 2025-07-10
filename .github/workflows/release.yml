@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*.*.*'
 
+permissions:
+  contents: write
+  
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -63,48 +66,35 @@ jobs:
         echo "SHA256: ${SHA256}"
         
     - name: Create GitHub Release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ steps.tag.outputs.version }}
-        release_name: ${{ steps.tag.outputs.version }}
-        body: |
-          ## Changes in ${{ steps.tag.outputs.version }}
+      run: |
+        gh release create ${{ steps.tag.outputs.version }} \
+          --title "${{ steps.tag.outputs.version }}" \
+          --notes "## Changes in ${{ steps.tag.outputs.version }}
           
-          A fun command for when you accidentally type `/exit` instead of `exit`. 
-          Perfect for Claude Code users! 🚀
-          
-          ### Installation
-          
-          ```bash
-          brew tap Hietan/tap
-          brew install slash-exit
-          slash-exit-enable
-          ```
-          
-          ### What's included
-          - `slash-exit`: Main animation command
-          - `slash-exit-enable`: Setup script for shell integration
-          
-          ### SHA256 Checksum
-          ```
-          ${{ steps.sha256.outputs.sha256 }}
-          ```
-          
-          See [CHANGELOG.md](https://github.com/Hietan/slash-exit-homebrew/blob/main/CHANGELOG.md) for detailed changes.
-        draft: false
-        prerelease: false
+        A fun command for when you accidentally type \`/exit\` instead of \`exit\`. 
+        Perfect for Claude Code users! 🚀
         
-    - name: Upload release tarball
-      uses: actions/upload-release-asset@v1
+        ### Installation
+        
+        \`\`\`bash
+        brew tap Hietan/tap
+        brew install slash-exit
+        slash-exit-enable
+        \`\`\`
+        
+        ### What's included
+        - \`slash-exit\`: Main animation command
+        - \`slash-exit-enable\`: Setup script for shell integration
+        
+        ### SHA256 Checksum
+        \`\`\`
+        ${{ steps.sha256.outputs.sha256 }}
+        \`\`\`
+        
+        See [CHANGELOG.md](https://github.com/Hietan/slash-exit-homebrew/blob/main/CHANGELOG.md) for detailed changes." \
+          slash-exit-homebrew-${{ steps.tag.outputs.version_number }}.tar.gz
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./slash-exit-homebrew-${{ steps.tag.outputs.version_number }}.tar.gz
-        asset_name: slash-exit-homebrew-${{ steps.tag.outputs.version_number }}.tar.gz
-        asset_content_type: application/gzip
         
     - name: Output Formula update info
       run: |
