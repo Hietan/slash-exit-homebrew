@@ -3,7 +3,7 @@
 # test_slash_exit.sh - Test suite for slash-exit project
 # Tests both slash-exit and slash-exit-enable scripts
 
-set -euo pipefail
+set -eo pipefail
 
 # Colors for test output
 RED='\033[0;31m'
@@ -51,11 +51,12 @@ run_test() {
     ((TESTS_TOTAL++))
     log_test "Running: $test_name"
     
-    if eval "$test_command"; then
+    if eval "$test_command" 2>/dev/null; then
         log_pass "$test_name"
         return 0
     else
         log_fail "$test_name"
+        echo "Command failed: $test_command" >&2
         return 1
     fi
 }
