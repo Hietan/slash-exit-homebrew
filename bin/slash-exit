@@ -275,7 +275,9 @@ animate_goodbye() {
 show_final_message() {
     log_debug "Showing final message"
     
-    clear_screen
+    # Don't clear screen - let messages stack naturally
+    echo
+    echo
     
     # Center the final message
     local msg1="But don't worry, you're still here! 😄"
